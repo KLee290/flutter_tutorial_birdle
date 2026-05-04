@@ -14,16 +14,14 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Align(
+          title: const Align(
             alignment: Alignment.centerLeft,
             child: Text('Birdle'),
           ),
         ),
-        body: Center(
-          child: Tile('A', HitType.hit), // NEW
+        body: Center(child: GamePage()), // NEW
         ),
-      ),
-    );
+      );
   }
 }
 
@@ -58,15 +56,31 @@ class Tile extends StatelessWidget {
   }
 }
 
+
 class GamePage extends StatelessWidget {
   GamePage({super.key});
-  // This object is part of the game.dart file.
-  // It manages wordle logic, and is outside the scope of this tutorial.
+
+  // This manages game logic, and is out of scope for this lesson.
   final Game _game = Game();
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Replace with screen contents
-    return Container();
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        spacing: 5.0,
+        children: [
+          for (final guess in _game.guesses)
+            Row(
+              spacing: 5.0,
+              children: [
+                for (final letter in guess) Tile(letter.char, letter.type),
+              ],
+            ),
+        ],
+      ),
+    );
   }
 }
+
+
